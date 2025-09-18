@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Portfolio</title>
+  <style>
+  /* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #111;
+}
+
+/* Containers */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* Header */
+header {
+  background: #111;
+  color: #fff;
+  padding: 1rem 0;
+}
+
+header .nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #aaa;
+}
+
+/* Hero */
+.hero {
+  background: #eee;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.hero h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.hero span {
+  color: #333;
+  font-weight: bold;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  background: #111;
+  color: #fff;
+  text-decoration: none;
+  margin-top: 1rem;
+  border-radius: 4px;
+}
+
+.btn:hover {
+  background: #333;
+}
+
+/* Sections */
+.section {
+  padding: 3rem 0;
+}
+
+.section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section.grey {
+  background: #f7f7f7;
+}
+
+/* Section cards */
+#education .card,
+#experience .card,
+#skills .card {
+  margin-bottom: 1.5rem;
+}
+
+ul {
+  margin-top: 0.5rem;
+  padding-left: 1.2rem;
+}
+
+ul li {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Certifications list */
+.cert-list {
+  list-style-type: square;
+  padding-left: 1.5rem;
+}
+
+.cert-list li {
+  margin-bottom: 0.4rem;
+  color: #333;
+}
+
+/* Projects Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 1.5rem;
+  border-radius: 6px;
+  transition: box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Contact */
+#contact p {
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+#contact a {
+  color: #111;
+  text-decoration: none;
+}
+
+#contact a:hover {
+  color: #555;
+}
+
+/* Footer */
+footer {
+  background: #111;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+</style>
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header>
+    <div class="container nav">
+      <h1 class="logo">MyPortfolio</h1>
+      <nav>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#experience">Experince</a></li>
+          <li><a href="#sertifications">Certificates</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h2>Hello, I'm <span>NISHAN ROSARY S</span></h2>
+      <p><strong>Aspiring Frontend Developer</strong></p>
+      <a href="#contact" class="btn">Hire Me</a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2>About Me</h2>
+      <p>
+        Aspiring frontend developer passionate about creating clean, responsive,
+        and user-friendly web applications. Skilled in HTML, CSS, JavaScript,
+        and React, with interest in modern UI design. Enjoys turning ideas into smooth, interactive experiences. I’m always curious to learn and explore the latest trends in web technologies and design. Excited to grow as a front-end developer while contributing to a creative and innovative tech team
+      </p>
+    </div>
+  </section>
+
+<!-- Education -->
+<section id="education" class="section grey">
+  <div class="container">
+    <h2>Education</h2>
+    <div class="card">
+      <h3>Bachelor of Computer Application (2023 – 2026)</h3>
+      <p><strong>St Joseph’s University (SJU), Bangalore</strong></p>
+      <ul>
+        <li>Completed additional courses in AI, Machine Learning, and Creative Thinking</li>
+        <li>Active participant in sports like Cricket</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience" class="section">
+  <div class="container">
+    <h2>Experience</h2>
+    <div class="card">
+      <h3>Operation Executive (2024 – 2025)</h3>
+      <p><strong>Beegle Technology</strong></p>
+      <ul>
+        <li>Awarded Best Performer of the Month for delivering great results and improving efficiency</li>
+        <li>Handled customer inquiries via phone, email, and live chat (Wati)</li>
+        <li>Managed bookings, returns, and refunds ensuring smooth customer experience</li>
+        <li>Contributed to FAQs and internal processes, reducing repeat customer issues</li>
+        <li>Collaborated with marketing and product teams to improve usability and campaigns</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills" class="section grey">
+  <div class="container">
+    <h2>Skills</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Technical Skills</h3>
+        <p>Java, React, HTML, CSS, JavaScript, MySQL, REST APIs, GitHub, Python, C, C++, DSA</p>
+      </div>
+      <div class="card">
+        <h3>Professional Skills</h3>
+        <p>Design Understanding, Team Collaboration, Problem Solving, Communication</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Certifications -->
+<section id="certifications" class="section">
+  <div class="container">
+    <h2>Certifications & Awards</h2>
+    <ul class="cert-list">
+      <li>Introduction to Artificial Intelligence</li>
+      <li>Artificial Intelligence and Machine Learning Training Course</li>
+      <li>Machine Learning Fundamentals</li>
+      <li>Learn Machine Learning</li>
+      <li>Field Sales in Electronics</li>
+      <li>Creative Thinking: Techniques and Tools for Success</li>
+      <li>Best Performer of the Month</li>
+    </ul>
+  </div>
+</section>
+
+  <!-- Projects -->
+  <section id="projects" class="section grey">
+    <div class="container">
+      <h2>Projects</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Portfolio Website</h3>
+          <p>Responsive personal portfolio built with HTML and CSS.</p>
+        </div>
+        <div class="card">
+          <h3>Cloud Storage System</h3>
+          <p>
+            Developed using Spring Boot, MySQL, and React with secure APIs.
+          </p>
+        </div>
+        <div class="card">
+          <h3>To-Do App</h3>
+          <p>JavaScript app with localStorage for persistent task management.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <div class="container">
+      <h2>Contact</h2>
+      <p>
+        📧 <a href="mailto:yourname@email.com">yourname@email.com</a><br />
+        🔗 <a href="https://www.linkedin.com/in/nishan-rosary-969b57378/" target="_blank">LinkedIn</a><br />
+        📞 <a href="tel:+919739902765">+91 97399 02765</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Your Name — All Rights Reserved</p>
+  </footer>
+</body>
+</html>
