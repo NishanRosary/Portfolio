@@ -1,4 +1,4 @@
-/* Modern Reset & Base Styles */
+﻿/* Modern Reset & Base Styles */
 :root {
   --bg-dark: #0f172a;
   --bg-card: #1e293b;
@@ -266,10 +266,6 @@ h2::after {
   display: block;
 }
 
-.about-img-container:hover .about-img {
-  filter: none;
-}
-
 .about-img-container::after {
   content: '';
   position: absolute;
@@ -288,45 +284,76 @@ h2::after {
 /* Skills */
 .skills-wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
 }
 
 .skill-category-card {
   background: var(--bg-card);
-  padding: 25px;
-  border-radius: 8px;
+  padding: 30px;
+  border-radius: 12px;
   border: 1px solid var(--border);
-  transition: var(--transition);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle gradient hover effect */
+.skill-category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), #8b5cf6);
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
 .skill-category-card:hover {
   transform: translateY(-5px);
-  border-color: var(--accent);
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 10px 40px -10px rgba(2, 12, 27, 0.6);
+}
+
+.skill-category-card:hover::before {
+  opacity: 1;
 }
 
 .skill-title {
   color: var(--text-primary);
-  margin-bottom: 15px;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .skill-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
 }
 
 .skill-tag {
-  font-family: monospace;
+  font-family: var(--font-main);
   font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.skill-tag:hover {
   color: var(--accent);
   background: rgba(56, 189, 248, 0.1);
-  padding: 4px 8px;
-  border-radius: 4px;
+  border-color: var(--accent);
+  transform: translateY(-2px);
 }
 
 /* Experience & Education - Timeline */
@@ -495,6 +522,109 @@ footer {
   background-color: var(--text-primary);
 }
 
+/* Certifications with Flexbox Layout */
+.cert-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.cert-card {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  transition: all 0.4s ease;
+  flex: 0 1 calc(50% - 12px);
+  /* 2 per row */
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add hover border gradient for certs */
+.cert-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), #8b5cf6);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.cert-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 10px 40px -10px rgba(2, 12, 27, 0.6);
+  background: rgba(30, 41, 59, 0.8);
+}
+
+.cert-card:hover::before {
+  opacity: 1;
+}
+
+.cert-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cert-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(56, 189, 248, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.cert-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.cert-list {
+  list-style: none;
+}
+
+.cert-item {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  transition: color 0.3s;
+}
+
+.cert-item:hover {
+  color: var(--text-primary);
+}
+
+.cert-item::before {
+  content: '▹';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent);
+  font-family: monospace;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .hamburger {
@@ -522,7 +652,6 @@ footer {
     background-color: rgba(15, 23, 42, 0.98);
     width: 100%;
     height: 100vh;
-    /* Fallback */
     height: 100dvh;
     justify-content: center;
     align-items: center;
@@ -540,7 +669,6 @@ footer {
     font-size: 1.5rem;
   }
 
-  /* Fit Screen Adjustments */
   h1 {
     font-size: 2.5rem;
   }
@@ -580,6 +708,11 @@ footer {
 
   .contact-section {
     padding: 40px 0;
+  }
+
+  /* Certifications on mobile */
+  .cert-card {
+    flex: 1 1 100%;
   }
 }
 
