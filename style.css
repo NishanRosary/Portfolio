@@ -262,7 +262,6 @@ h2::after {
 .about-img {
   width: 100%;
   border-radius: 8px;
-  filter: grayscale(100%);
   transition: var(--transition);
   display: block;
 }
