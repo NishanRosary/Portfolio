@@ -1,88 +1,90 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // --- Particle Background System ---
+
+  // ── Refined Particle System ──
   const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d');
   let particles = [];
-  const particleCount = 100; // Increased count
+  const PARTICLE_COUNT = 60;
   let mouse = { x: null, y: null };
+  let animId;
 
   const resize = () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   };
 
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', () => { resize(); initParticles(); });
   resize();
 
-  window.addEventListener('mousemove', (e) => {
+  window.addEventListener('mousemove', e => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
   });
 
+  window.addEventListener('mouseleave', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
   class Particle {
-    constructor() {
-      this.init();
-    }
-    init() {
+    constructor() { this.reset(); }
+
+    reset() {
       this.x = Math.random() * canvas.width;
       this.y = Math.random() * canvas.height;
-      this.size = Math.random() * 3 + 1; // Slightly larger particles
-      this.baseX = this.x;
-      this.baseY = this.y;
-      this.density = (Math.random() * 30) + 1;
-      this.speedX = Math.random() * 0.8 - 0.4;
-      this.speedY = Math.random() * 0.8 - 0.4;
+      this.size = Math.random() * 1.5 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.speedY = (Math.random() - 0.5) * 0.3;
+      this.density = Math.random() * 15 + 5;
+      this.opacity = Math.random() * 0.4 + 0.1;
     }
+
     update() {
-      // Gentle floating motion
       this.x += this.speedX;
       this.y += this.speedY;
 
-      // Mouse interaction
-      if (mouse.x != null) {
-        let dx = mouse.x - this.x;
-        let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        let forceDirectionX = dx / distance;
-        let forceDirectionY = dy / distance;
-        let maxDistance = 200; // Increased interaction range
-        let force = (maxDistance - distance) / maxDistance;
-        let directionX = forceDirectionX * force * this.density;
-        let directionY = forceDirectionY * force * this.density;
+      // Gentle mouse repulsion
+      if (mouse.x !== null) {
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = 120;
 
-        if (distance < maxDistance) {
-          this.x -= directionX;
-          this.y -= directionY;
+        if (dist < maxDist) {
+          const force = (maxDist - dist) / maxDist;
+          this.x -= (dx / dist) * force * this.density * 0.4;
+          this.y -= (dy / dist) * force * this.density * 0.4;
         }
       }
 
-      // Boundary check
-      if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-      if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+      // Soft boundary wrap
+      if (this.x > canvas.width + 10) this.x = -10;
+      else if (this.x < -10) this.x = canvas.width + 10;
+      if (this.y > canvas.height + 10) this.y = -10;
+      else if (this.y < -10) this.y = canvas.height + 10;
     }
+
     draw() {
-      // Darker Indigo for visibility on white background
-      ctx.fillStyle = 'rgba(99, 102, 241, 0.6)'; // Increased opacity
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.closePath();
+      ctx.fillStyle = `rgba(180, 150, 100, ${this.opacity})`;
       ctx.fill();
     }
   }
 
   const connectParticles = () => {
-    let opacityValue = 1;
+    const maxDist = 120;
     for (let a = 0; a < particles.length; a++) {
-      for (let b = a; b < particles.length; b++) {
-        let dx = particles[a].x - particles[b].x;
-        let dy = particles[a].y - particles[b].y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
+      for (let b = a + 1; b < particles.length; b++) {
+        const dx = particles[a].x - particles[b].x;
+        const dy = particles[a].y - particles[b].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < 150) { // Increased connection distance
-          opacityValue = 1 - (distance / 150);
-          ctx.strokeStyle = 'rgba(99, 102, 241, ' + opacityValue * 0.25 + ')'; // Increased line visibility
-          ctx.lineWidth = 1;
+        if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * 0.08;
           ctx.beginPath();
+          ctx.strokeStyle = `rgba(160, 130, 80, ${alpha})`;
+          ctx.lineWidth = 0.8;
           ctx.moveTo(particles[a].x, particles[a].y);
           ctx.lineTo(particles[b].x, particles[b].y);
           ctx.stroke();
@@ -92,71 +94,48 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const initParticles = () => {
-    particles = [];
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
+    particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
   };
 
   const animate = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      p.update();
-      p.draw();
-    });
+    particles.forEach(p => { p.update(); p.draw(); });
     connectParticles();
-    requestAnimationFrame(animate);
+    animId = requestAnimationFrame(animate);
   };
 
   initParticles();
   animate();
 
-  // --- Original Functionality ---
-  // Intersection Observer for scroll animations
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1
-  };
-
-  const observer = new IntersectionObserver((entries, observer) => {
+  // ── Intersection Observer ──
+  const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target); // Only animate once
+        obs.unobserve(entry.target);
       }
     });
-  }, observerOptions);
+  }, { root: null, rootMargin: '0px', threshold: 0.08 });
 
-  const animatedElements = document.querySelectorAll('.fade-up');
-  animatedElements.forEach(el => observer.observe(el));
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-  // Smooth scrolling for anchor links
+  // ── Smooth Scroll ──
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
       e.preventDefault();
-      const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
-
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        // Offset for fixed header
-        const headerOffset = 80;
-        const elementPosition = targetElement.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
+      const target = document.querySelector(href);
+      if (!target) return;
+      const offset = 88;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   });
 
-  // Mobile Menu Toggle
+  // ── Mobile Menu ──
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
-  const links = document.querySelectorAll('.nav-link, .btn-primary');
 
   if (hamburger) {
     hamburger.addEventListener('click', () => {
@@ -164,12 +143,30 @@ document.addEventListener('DOMContentLoaded', () => {
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when a link is clicked
-    links.forEach(link => {
+    document.querySelectorAll('.nav-link, .nav-links .btn-primary').forEach(link => {
       link.addEventListener('click', () => {
         hamburger.classList.remove('active');
         navLinks.classList.remove('active');
       });
     });
+
+    // Close on outside click
+    document.addEventListener('click', e => {
+      if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('active');
+      }
+    });
   }
+
+  // ── Navbar scroll shadow ──
+  const navbar = document.querySelector('.navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 16) {
+      navbar.style.boxShadow = '0 1px 12px rgba(0,0,0,0.06)';
+    } else {
+      navbar.style.boxShadow = 'none';
+    }
+  }, { passive: true });
+
 });
